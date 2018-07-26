@@ -43,3 +43,6 @@ def generate_product_codes(request, uuid=None):
         else:
             form = ProductForm(current_user_manufacturer)
         return render(request, 'product/generate_product_codes.html', {'form': form, 'manufacturer': current_user_manufacturer})
+
+def view_product_codes(request):
+    return render(request, 'product/view_product_codes.html')
