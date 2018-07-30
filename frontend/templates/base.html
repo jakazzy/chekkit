@@ -14,12 +14,19 @@
     {% block css %}
 
     {% endblock %}
+    <style>
+      #chekkit-nav-logo{
+         filter: drop-shadow(0px 0px 4px rgba(0,0,0,.5));
+      }
+   </style>
 </head>
 <body>
 <nav class="navbar w3-border-bottom" role="navigation" aria-label="main navigation" style="padding: 6px 0">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            Chekkit @ {{ request.user.profile.manufacturer }}
+            Chekkit {% if request.user.profile.manufacturer %}
+            @ {{ request.user.profile.manufacturer }}
+            {% endif %}
             {# <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">#}
         </a>
 
@@ -31,27 +38,19 @@
 
     </div>
     <div class="navbar-menu">
-        <div class="navbar-start">
-            <form class="navbar-item">
-                <div class="control">
-                    <div class="field">
-                        <label>
-                            <input type="text" class="w3-large search-input-width input reset-border-radius">
-                        </label>
-                    </div>
-                </div>
-                <div class="control">
-                    <div class="field">
-                        <button class="button is-link reset-border-radius w3-large" type="submit"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
 
         <div class="navbar-end">
-            <a class="navbar-item">Create Product Line</a>
+            {% if request.user.is_authenticated %}
+            <a class="navbar-item" href="{% url 'product:add_productlines' %}">Create Product Line</a>
             <a class="navbar-item" href="{% url 'product:generate_product_codes' %}">Generate Product Codes</a>
-            <a class="navbar-item">{{ request.user.get_full_name }}</a>
+            <a class="navbar-item" href="{% url 'accounts:profile' %}">{{ request.user.username }}</a>
+            <a class="navbar-item w3-opacity-max" href="{% url 'account_logout' %}">Logout</a>
+
+            {% else %}
+            <a class="navbar-item" href="{% url 'account_login' %}">Login</a>
+            <a class="navbar-item" href="{% url 'account_signup' %}">Register</a>
+
+            {% endif %}
         </div>
     </div>
 </nav>

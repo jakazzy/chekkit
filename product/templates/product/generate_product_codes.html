@@ -6,7 +6,8 @@
         <form action="." method="post">
             <h1 class="menu-label w3-xlarge">Create Product {{ manufacturer }}</h1>
             {% csrf_token %}
-            {{ form|bulma }}
+            {{ batch_form|bulma }}
+            {{ product_form|bulma }}
             <input type="submit" value="Submit"/>
         </form>
     </div>

@@ -1,8 +1,11 @@
 import uuid
+from django.utils.timezone import now
+from random import randint
 
+from django.conf import settings
 from django.db import models
 
-from account.models import Manufacturer, Location
+from accounts.models import Manufacturer, Location
 
 
 class ProductLine(models.Model):
@@ -18,22 +21,34 @@ class ProductLine(models.Model):
 
 
 class Batch(models.Model):
-    production_date = models.DateTimeField()
-    expiry_date = models.DateTimeField()
+    production_date = models.DateField(blank=True, null=True)
+    expiry_date = models.DateField(blank=True, null=True)
     batch_number = models.IntegerField(unique=True, blank=True, null=True)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return "{}: {}".format(self.location.manufacturer_name, self.batch_number)
 
 
-class Product(models.Model):
-    product_code = models.IntegerField(unique=True)
+class ProductCode(models.Model):
+    product_code = models.IntegerField(unique=True, blank=True, null=True)
     product_line = models.ForeignKey(ProductLine, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=False)
     batch_number = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    generated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    activated = models.BooleanField(default=False)
+
 
     def __str__(self):
         return str(self.product_code)
+
+    def get_code(self):
+
+        return randint(100, 3000)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.product_code = self.get_code()
+        super().save(*args, **kwargs)
 
 
