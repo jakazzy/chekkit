@@ -56,7 +56,8 @@
             {% if request.user.is_authenticated %}
                 <a class="navbar-item" href="{% url 'product:add_productlines' %}">Create Product Line</a>
                 <a class="navbar-item" href="{% url 'product:generate_product_codes' %}">Generate Product Codes</a>
-                <a class="navbar-item" href="{% url 'accounts:profile' %}">{{ request.user.get_full_name }}</a>
+                <a class="navbar-item"
+                   href="{% url 'accounts:profile' %}">{{ user.get_full_name|default:user.username }}</a>
                 <a class="navbar-item w3-opacity-max" href="{% url 'account_logout' %}">Logout</a>
 
             {% else %}

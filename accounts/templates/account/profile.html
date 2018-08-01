@@ -4,10 +4,11 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title has-text-centered">
-        Welcome, {{ request.user.get_full_name }}
+          Welcome, {{ user.get_full_name|default:user.username }}
       </h1>
       <h2 class="subtitle has-text-centered">
-<a class="button is-text is-white" href="{% url 'invitations:send-invite' %}">Invite Employees </a>
+          <a class="button is-text is-white" href="{% url 'invitations:send-invite' %}">Invitee Co-workers /
+              Employees </a>
       </h2>
     </div>
   </div>

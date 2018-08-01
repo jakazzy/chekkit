@@ -1,7 +1,9 @@
 {% extends 'index.html' %}
 {% load i18n bulma_tags%}
+{% block title %}Invitee to {% endblock %}
 {% block main %}
-<div class="container w3-container w3-padding-large">
+
+    <div class="container w3-container w3-padding-large">
 
 <h1 class="menu-label w3-xlarge">{% trans "Invite" %}</h1>
 <p class="alert alert-info">{% trans "Please add an email below. The user will receive an email with instructions." %}</p>

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+
 import dj_database_url
 import django_heroku
 
@@ -191,4 +192,4 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
-INVITATIONS_SIGNUP_REDIRECT = '/'
+INVITATIONS_SIGNUP_REDIRECT = '/accounts/signup/'
