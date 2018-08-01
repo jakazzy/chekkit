@@ -1,10 +1,10 @@
+import random
 import uuid
 
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-
 from django.db import models
 # Create your models here.
 from django.db.models.signals import post_save
@@ -22,7 +22,7 @@ def validate_code_length(value):
 
 
 class Manufacturer(models.Model):
-    code = models.IntegerField(unique=True, validators=[validate_code_length])
+    code = models.IntegerField(unique=True, validators=[validate_code_length], editable=False)
     name = models.CharField(max_length=200)
     industry = models.CharField(max_length=400)
 
@@ -30,6 +30,11 @@ class Manufacturer(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        if self._state.adding:
+            filtered_taken_codes = list(range(1000, 9999))
+            for manufacturer in Manufacturer.objects.all():
+                filtered_taken_codes.remove(manufacturer.code)
+            self.code = random.choice(filtered_taken_codes)
         super().save(*args, **kwargs)
 
 
