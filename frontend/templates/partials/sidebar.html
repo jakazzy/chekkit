@@ -1,31 +1,44 @@
+{% load product_lines_tag %}
+
 <aside class="menu w3-container w3-padding-large">
-  <p class="menu-label">
-    General
-  </p>
-  <ul class="menu-list">
-    <li><a>Dashboard</a></li>
-    <li><a>Customers</a></li>
-  </ul>
-  <p class="menu-label">
-    Administration
-  </p>
-  <ul class="menu-list">
-    <li><a>Team Settings</a></li>
-    <li>
-      <a class="is-active">Manage Your Team</a>
-      <ul>
-        <li><a>Members</a></li>
-        <li><a>Plugins</a></li>
-        <li><a>Add a member</a></li>
-      </ul>
-    </li>
-    <li><a>Invitations</a></li>
-    <li><a>Cloud Storage Environment Settings</a></li>
-    <li><a>Authentication</a></li>
-  </ul>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <p class="menu-label">
+        General
+    </p>
+    <ul class="menu-list">
+        <li><a class="{% if overview %}is-active trans-400{% endif %}" href="/">Oveview</a></li>
+        <li><a class="{% if activity %}is-active trans-400{% endif %}" href="{% url 'frontend:activity' %}">Activity</a></li>
+        <li><a class="{% if analytics %}is-active trans-400{% endif %}" href="{% url 'frontend:analytics' %}">Analytics</a></li>
+    </ul>
+    <p class="menu-label">
+        Product Lines
+    </p>
+    <ul class="menu-list">
+        {% with request|product_lines as pl %}
+            {% for product_line in pl %}
+
+                <li>
+                    <a class="{% if product_line.uuid == product_line_object.uuid %}is-active trans-400{% endif %}"
+                       href="{% url 'product:detail_productline' product_line.uuid %}">{{ product_line.product_name }}</a>
+                </li>
+            {% endfor %}
+
+        {% endwith %}
+
+    </ul>
+    <p class="menu-label">
+        Batch Numbers
+    </p>
+    <ul class="menu-list">
+        {% with request|batch_numbers as bn %}
+            {% for batch_number in bn %}
+
+                <li>
+                    <a class="{% if batch_number.uuid == batch_object.uuid %}is-active trans-400{% endif %}"
+                       href="{% url 'product:batch_detail' batch_number.uuid %}"># {{ batch_number.batch_number }}</a>
+                </li>
+            {% endfor %}
+
+        {% endwith %}
+
+    </ul>
 </aside>

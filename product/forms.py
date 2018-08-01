@@ -8,26 +8,33 @@ from .models import ProductLine, ProductCode, Batch
 class ProductLineForm(ModelForm):
     class Meta:
         model = ProductLine
-        fields = ['product_name', 'description', ]
+        fields = ['product_name', 'description']
 
 
-class ProductCodeForm(ModelForm):
+class BaseProductCodeForm(ModelForm):
     quantity = forms.IntegerField(label='Quantity of Product Codes that should be generated')
 
+    class Meta:
+        model = ProductCode
+        fields = ['quantity']
+
+
+class ProductCodeForm(BaseProductCodeForm):
     def __init__(self, manufacturer=None, *args, **kwargs):
         super(ProductCodeForm, self).__init__(*args, **kwargs)
         if manufacturer:
             self.fields['product_line'].queryset = ProductLine.objects.filter(manufacturer=manufacturer)
-        else:
-            pass
 
-    class Meta:
+    class Meta(BaseProductCodeForm.Meta):
         model = ProductCode
-        fields = ['product_line', 'quantity']
+        fields = BaseProductCodeForm.Meta.fields + ['product_line']
 
-    def save(self, commit=True):
-        print(self.cleaned_data['quantity'])
-        return super(ProductCodeForm, self).save(commit=commit)
+
+class ProductCodeFromBatchForm(BaseProductCodeForm):
+    class Meta(BaseProductCodeForm.Meta):
+        model = ProductCode
+        # fields = BaseProductCodeForm.Meta.fields + ['batch_number']
+        fields = BaseProductCodeForm.Meta.fields
 
 
 class BatchForm(ModelForm):
@@ -37,4 +44,4 @@ class BatchForm(ModelForm):
 
     class Meta:
         model = Batch
-        fields = '__all__'
+        exclude = ('product_line',)

@@ -43,13 +43,18 @@ INSTALLED_APPS = [
     'api',
     'contact',
     'product',
+    'ussdapp',
 
     # Third party apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'bulma',
-    'invitations'
+    'invitations',
+    'qr_code',
+    'sorl.thumbnail',
+    'rest_framework',
+
 
 ]
 
@@ -139,24 +144,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGOUT_ON_GET = True
 
-ACCOUNT_AUTHENTICATION_METHOD='email'
-
-ACCOUNT_EMAIL_REQUIRED=True
-ACCOUNT_LOGOUT_ON_GET=True
-
-ACCOUNT_LOGOUT_REDIRECT_URL='/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-ACCOUNT_SESSION_REMEMBER=True
-ACCOUNT_USERNAME_REQUIRED=False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
-INVITATIONS_SIGNUP_REDIRECT='/'
+INVITATIONS_SIGNUP_REDIRECT = '/'

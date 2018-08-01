@@ -1,11 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic.detail import DetailView
 
-from product.models import ProductLine, ProductCode
-from .forms import ProductLineForm, ProductCodeForm, BatchForm
+from product.models import ProductLine, ProductCode, Batch
+from .forms import ProductLineForm, ProductCodeForm, BatchForm, ProductCodeFromBatchForm
 
 
 # Create your views here.
@@ -13,26 +11,39 @@ from .forms import ProductLineForm, ProductCodeForm, BatchForm
 def add_productlines(request):
     if request.method == 'POST':
         form = ProductLineForm(request.POST)
-        if form.is_valid:
-            # new_form= form.cleaned_data
-            form.save()
+        if form.is_valid():
+            product_line = form.save(commit=False)
+            product_line.manufacturer = request.user.profile.manufacturer
+            product_line.save()
 
-            return HttpResponseRedirect('/')
+            return redirect(reverse('product:detail_productline', args=(product_line.uuid,)))
     else:
         form = ProductLineForm()
     return render(request, 'product/add_productline.html', {'form': form})
 
 
-class ProductLineView(DetailView):
-    model = ProductLine
-    template_name = 'product/product_line_detail.html'
-    content_object_name = 'productline'
+from django.core.paginator import Paginator
 
 
 def product_line(request, uuid):
-    pl = ProductLine.objects.get(uuid=uuid)
-    products = ProductCode.objects.filter(product_line=pl)
-    return render(request, 'product/product_line_detail.html', {'pl': pl, 'products': products})
+    product_line_object = ProductLine.objects.get(uuid=uuid)
+    product_codes = ProductCode.objects.filter(product_line=product_line_object).order_by('created')
+    paginator = Paginator(product_codes, 20)
+
+    page = request.GET.get('page')
+    product_codes = paginator.get_page(page)
+    return render(request, 'product/product_line_detail.html',
+                  {'product_line_object': product_line_object, 'product_codes': product_codes})
+
+
+def batch_detail(request, uuid):
+    batch = Batch.objects.get(uuid=uuid)
+    product_codes = ProductCode.objects.filter(batch_number__uuid=uuid)
+    paginator = Paginator(product_codes, 20)
+
+    page = request.GET.get('page')
+    product_codes = paginator.get_page(page)
+    return render(request, 'batch/batch_detail.html', {'product_codes': product_codes, 'batch_object': batch})
 
 
 @login_required()
@@ -41,16 +52,25 @@ def generate_product_codes(request, uuid=None):
     if request.method == 'POST':
         product_form = ProductCodeForm(current_user_manufacturer, request.POST)
         batch_form = BatchForm(current_user_manufacturer, request.POST)
-        if product_form.is_valid and batch_form.is_valid:
+        print('product: ', product_form.is_valid())
+        print('batch: ', batch_form.is_valid())
+        if product_form.is_valid() and batch_form.is_valid():
 
-            batch = batch_form.save(commit=False)
-            batch.save()
             product = product_form.save(commit=False)
 
-            product.batch_number = batch
-            product.generated_by = request.user
-            product.save()
-            return redirect(reverse('product:detail_productline', args=(product.product_line.uuid, )))
+            batch = batch_form.save(commit=False)
+
+            batch.product_line = product.product_line
+            batch.save()
+
+            quantity = product_form.cleaned_data['quantity']
+
+            for c_time in range(0, quantity):
+                ProductCode.objects.create(batch_number=batch, generated_by=request.user,
+                                           product_line=product.product_line)
+
+            return redirect(reverse('product:detail_productline', args=(product.product_line.uuid,)))
+        return redirect('/')
     else:
         batch_form = BatchForm(current_user_manufacturer)
         if uuid:
@@ -63,5 +83,24 @@ def generate_product_codes(request, uuid=None):
                        'manufacturer': current_user_manufacturer})
 
 
-def view_product_codes(request):
-    return render(request, 'product/view_product_codes.html')
+@login_required()
+def generate_product_codes_for_batch(request, uuid):
+    batch = Batch.objects.get(uuid=uuid)
+    if request.method == 'POST':
+        product_form = ProductCodeFromBatchForm(request.POST)
+        if product_form.is_valid():
+
+            product = product_form.save(commit=False)
+
+            quantity = product_form.cleaned_data['quantity']
+
+            for c_time in range(0, quantity):
+                ProductCode.objects.create(batch_number=batch, generated_by=request.user,
+                                           product_line=batch.product_line)
+
+            return redirect(reverse('product:batch_detail', args=(batch.uuid,)))
+    else:
+        product_form = ProductCodeFromBatchForm(initial={'batch_number': batch})
+        return render(request, 'product/generate_product_codes.html',
+                      {'product_form': product_form,
+                       'manufacturer': request.user.profile.manufacturer})

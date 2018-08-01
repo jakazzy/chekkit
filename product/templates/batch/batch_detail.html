@@ -1,34 +1,23 @@
 {% extends 'index.html' %}
 {% block title %}
-{{ product_line_object }}
+{{ batch_object }}
 {% endblock %}
-{% load thumbnail %}
 {% load qr_code %}
 {% block main %}
     <header class="hero is-small is-black">
         <div class="hero-body columns">
             <div class="column is-2">
                 <figure class="image is-128x128">
-                    {% if product_line_object.photo %}
-
-                        {% thumbnail product_line_object.photo "128x128" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
-                                 title="Image of {{ product_line_object.product_name }}">
-                        {% endthumbnail %}
-                    {% else %}
-                        <img src="https://bulma.io/images/placeholders/480x480.png"
-                             alt="Placeholder image for {{ product_line_object.product_name }}">
-                    {% endif %}
+                    <img src="https://bulma.io/images/placeholders/480x480.png" alt="">
                 </figure>
             </div>
             <div class="column is-10 w3-container">
 
-                <h1 class="title">{{ product_line_object }}</h1>
-                <p class="subtitle">{{ product_line_object.description }}</p>
+                <h1 class="title"># {{ batch_object }}</h1>
+                <h1 class="subtitle">{{ batch_object.product_line.product_name }}</h1>
                 <a class="button is-link is-medium"
-                   href="{% url 'product:generate_product_codes_for_line' product_line_object.uuid %}">Generate Product
-                    Codes
-                    for {{ product_line_object.product_name }}</a>
+                   href="{% url 'product:generate_product_codes_for_batch' batch_object.uuid %}">Generate Product Codes
+                    for Batch {{ batch_object.batch_number }}</a>
             </div>
         </div>
     </header>

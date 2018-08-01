@@ -1,0 +1,46 @@
+<nav class="pagination is-rounded w3-padding-16" role="navigation" aria-label="pagination">
+                {% if page_obj.has_next %}
+                    <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                {% if page_obj.has_previous %}
+                    <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <ul class="pagination-list">
+                    {% if page_obj.number != 1 %}
+                        <li><a class="pagination-link" aria-label="Goto page 1" href="?page=1">1</a></li>
+                    {% endif %}
+                    {% if page_obj.number > 2 %}
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <li><a class="pagination-link" aria-label="Page {{ page_obj.previous_page_number }}"
+                               aria-current="page"
+                               href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                        </li>
+                    {% endif %}
+
+                    <li><a class="pagination-link is-current" aria-label="Page {{ page_obj.number }}"
+                           aria-current="page">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next and page_obj.next_page_number != page_obj.paginator.num_pages %}
+                        <li><a class="pagination-link" aria-label="Page {{ page_obj.next_page_number }}"
+                               href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+
+                    {% endif %}
+
+                    {% if page_obj.paginator.num_pages != page_obj.number %}
+                        <li>
+                            <span class="pagination-ellipsis">&hellip;</span>
+                        </li>
+                        <li>
+                            <a class="pagination-link" aria-label="Page {{ page_obj.paginator.num_pages }}"
+                               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                        </li>
+
+
+
+                    {% endif %}
+
+
+                </ul>
+
+
+            </nav>

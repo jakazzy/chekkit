@@ -1,14 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
+{% block title %}
+Generate Product Codes
+{% endblock %}
 {% load bulma_tags staticfiles static %}
 
-{% block content %}
-    <div class="container w3-margin-top">
-        <form action="." method="post">
+{% block main %}
+    <div class="container w3-padding-large">
+        <form action="" method="post">
             <h1 class="menu-label w3-xlarge">Create Product {{ manufacturer }}</h1>
             {% csrf_token %}
-            {{ batch_form|bulma }}
+            {% if batch_form %}
+                {{ batch_form|bulma }}
+            {% endif %}
             {{ product_form|bulma }}
-            <input type="submit" value="Submit"/>
+            <button type="submit" class="button is-link">Submit</button>
         </form>
     </div>
 {% endblock %}

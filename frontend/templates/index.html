@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+
+{% endblock %}
+{% block content %}
+    <div class="w3-quarter w3-white" style="overflow-y:auto;top: 64px; bottom: 0; height: 100%; position: fixed">
+        {% include 'partials/sidebar.html' %}
+    </div>
+    <div class="w3-threequarter w3-animate-right w3-right">
+    {% block main %}
+
+    {% endblock %}
+    </div>
+
+
+{% endblock %}

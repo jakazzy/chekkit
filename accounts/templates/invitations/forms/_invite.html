@@ -1,14 +1,16 @@
-{% extends 'base.html' %}
-{% load i18n %}
+{% extends 'index.html' %}
+{% load i18n bulma_tags%}
+{% block main %}
+<div class="container w3-container w3-padding-large">
 
-{% block content %}
-<h4 class="title">{% trans "Invite" %}</h4>
-<span class="alert alert-info">{% trans "Please add an email below. The user will receive an email with instructions." %}</span>
+<h1 class="menu-label w3-xlarge">{% trans "Invite" %}</h1>
+<p class="alert alert-info">{% trans "Please add an email below. The user will receive an email with instructions." %}</p>
 
 <form id="invite-form" method="POST" action="{% url 'invitations:send-invite' %}">
   {% csrf_token %}
   <div class="form-group">
-      <input type="text" name="email" id="id_email" value="{{ form.email.value }}" class="form-control validate-email" placeholder="{% trans 'Email' %}">
+      {{ form|bulma_horizontal }}
+  <input type="submit" value="Submit" class="button is-link">
   </div>
   <div class="form-group">
     {% for error in form.email.errors %}
@@ -16,6 +18,6 @@
     {% endfor %}
     {{ success_message }}
   </div>
-  <input type="submit" value="Submit" class="btn btn-primary generic-ajax-submit">
 </form>
+</div>
 {% endblock %}

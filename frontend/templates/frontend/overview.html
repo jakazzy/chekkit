@@ -1,22 +1,27 @@
-{% extends 'base.html' %}
-{% block content %}
-    <div class="w3-quarter w3-light-grey">
-        {% include 'partials/sidebar.html' %}
-
-    </div>
-    <div class="w3-threequarter w3-container w3-margin-top">
-        <h1 class="title w3-padding-16">Product Lines {% if request.user.profile.manufacturer %}
-            @ {{ request.user.profile.manufacturer }}
-            {% endif %} </h1>
-        <div class="columns is-multiline is-centered">
+{% extends 'index.html' %}
+{% block title %}
+    Overview
+{% endblock %}
+{% load thumbnail %}
+{% block main %}
+    <div class="w3-container w3-margin-top">
+        <div class="columns is-multiline">
             {% for product_line in product_lines %}
-                <div class="column is-4 w3-animate-zoom">
+                <div class="column is-4">
                     <section class="card">
                         <p class="card-header-title is-centered">
-                            <a href="{% url 'product:detail_productline' product_line.uuid %}">{{product_line.product_name}}</a>
+                            <a href="{% url 'product:detail_productline' product_line.uuid %}">{{ product_line.product_name }}</a>
                         </p>
                         <a href="{% url 'product:detail_productline' product_line.uuid %}" class="is-1by1">
-                            <img src="https://bulma.io/images/placeholders/480x480.png" alt="Placeholder image">
+                            {% if product_line.photo %}
+                                {% thumbnail product_line.photo "480x480" crop="center" as im %}
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                                         title="Image of {{ product_line.product_name }}">
+                                {% endthumbnail %}
+                            {% else %}
+                                <img src="https://bulma.io/images/placeholders/480x480.png"
+                                     alt="Placeholder image for {{ product_line.product_name }}">
+                            {% endif %}
                         </a>
                     </section>
                 </div>
