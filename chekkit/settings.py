@@ -14,6 +14,7 @@ import os
 
 import dj_database_url
 import django_heroku
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,9 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'flat_responsive',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +64,7 @@ INSTALLED_APPS = [
     'qr_code',
     'sorl.thumbnail',
     'rest_framework',
+    'corsheaders'
 
 
 ]
@@ -71,6 +76,8 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -78,6 +85,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
+else:
+    CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST', cast=lambda v: [s.strip() for s in v.split(',')],
+                                   default='CORS_ORIGIN_WHITELIST')
 ROOT_URLCONF = 'chekkit.urls'
 
 TEMPLATES = [
