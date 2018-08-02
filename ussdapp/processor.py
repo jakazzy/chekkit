@@ -26,11 +26,11 @@ class USSDProcessor(object):
         self.phone_no = data.get('Mobile')
         self.session_id = data.get('SessionId')
         self.service_code = data.get('ServiceCode')
-        self.stage = data.get('ClientState')
         self.response_type = data.get('Type')
-        self.operator = data.get('Operator')
         self.message = data.get('Message')
+        self.operator = data.get('Operator')
         self.sequence = data.get('Sequence')
+        self.stage = data.get('ClientState')
         self.gateway = HUBTEL
         self.record = self.record_session(data=data)
 
@@ -117,8 +117,7 @@ class USSDProcessor(object):
 
     def record_session(self, data):
         session, created = UssdRecord.objects.update_or_create(session_id=self.session_id, phone_no=self.phone_no,
-                                                               gateway=self.gateway,
-                                                               defaults=data)
+                                                               gateway=self.gateway, data=data)
         return session
 
     def exit_session(self):

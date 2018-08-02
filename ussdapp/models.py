@@ -1,7 +1,7 @@
 from django.db import models
+from jsonfield import JSONField
 
 from product.models import ProductLine
-from jsonfield import JSONField
 
 
 class UssdRecord(models.Model):
@@ -11,8 +11,8 @@ class UssdRecord(models.Model):
     session_id = models.CharField(max_length=50)
     phone_no = models.CharField(max_length=15)
     product_line = models.ForeignKey(ProductLine, blank=True, null=True, on_delete=models.SET_NULL)
-    complaint = models.CharField(max_length=100, choices=COMPLAINT_CHOICES, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    complaint = models.CharField(max_length=100, choices=COMPLAINT_CHOICES, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
     gateway = models.CharField(max_length=10)
     data = JSONField(default=dict())
     created = models.DateTimeField(auto_now_add=True)
