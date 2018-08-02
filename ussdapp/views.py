@@ -9,7 +9,7 @@ from ussdapp.processor import USSDProcessor
 def check_it(request):
     if request.method == 'OPTIONS':
         return Response({}, status=status.HTTP_200_OK)
-    else:
+    elif request.method == 'POST':
         data = request.data
         processor = USSDProcessor(data=data)
         return processor.process_request()
