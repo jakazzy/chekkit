@@ -21,6 +21,7 @@ class USSDProcessor(object):
     FINISH = 'finish'
     LOCATION = 'location'
     COMPLAINT = 'complaint'
+    FEEDBACK = 'feedback'
 
     def __init__(self, data):
         self.mobile = data.get('Mobile')
@@ -48,12 +49,18 @@ class USSDProcessor(object):
             elif self.client_state == self.COMPLAINT:
                 return self.complaint()
 
+            elif self.client_state == self.FEEDBACK:
+                return self.feedback()
+
             elif self.client_state == self.LOCATION:
                 return self.enter_location()
 
+            elif self.client_state == self.FINISH:
+                return self.info_reward()
+
     def welcome_menu(self, error=False):
         error_text = 'Invalid Selection\n' if error else ''
-        message = u"{}Welcome To Chekkit:\n\n1.Verify Product\n2.Exit".format(error_text)
+        message = u'{}Welcome To Chekkit:\n\n1.Verify Product\n2.Exit'.format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE,
                                      client_state=self.VERIFY_PRODUCT_MENU)
 
@@ -67,12 +74,14 @@ class USSDProcessor(object):
 
     def enter_product_code(self, error=False):
         error_text = 'Please enter a valid product code\n' if error else ''
-        message = '{}Please enter product code.'.format(error_text)
+        message = u'{}Please enter product code:'.format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.VERIFY_PRODUCT)
 
     def verify_product(self):
         if self.message:
             product_code = self.message
+            if str(product_code).__len__() != 16 or type(product_code) is not int:
+                return self.enter_product_code(error=True)
             try:
                 product = ProductCode.objects.get(product_code=product_code)
                 return self.verification_response(verified=True)
@@ -84,11 +93,32 @@ class USSDProcessor(object):
 
     def verification_response(self, verified=True, error=False):
         error_text = 'Invalid input\n' if error else ''
-        complaint_menu = '{}If you have any complaints please choose an option below:\n 1.No complaint\n 2.Product was below quality\n 3.Product is too expensive'.format(
-            error_text)
+        feedback_menu = '{}To claim your reward please choose a feedback option below:\n' \
+                        '1. No feedback\n ' \
+                        '2. Product was below quality\n ' \
+                        '3. Product is too expensive' \
+            .format(error_text)
         message = u'Congratulations, this product is an original! \n\n{}'.format(
-            complaint_menu) if verified else u'Warning! the product is not original.\n{}'.format(complaint_menu)
-        return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.COMPLAINT)
+            feedback_menu) if verified else u'Warning, this product is not an original! \nPlease enter location of purchase:\n'
+        if verified:
+            """
+            Subsequent transaction after verifying that a product is original
+            """
+            return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.FEEDBACK)
+        else:
+            """
+            Subsequent transaction after verifying that a product is fake
+            """
+            return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.COMPLAINT)
+
+    def feedback(self, error=False):
+        if self.message in ['1', '2', '3', '4']:
+            ussd_record = self.get_ussd_record()
+            ussd_record.complaint = self.message
+            ussd_record.save()
+            return self.enter_location(error=True)
+        else:
+            return self.verification_response(error=True)
 
     def complaint(self, error=False):
         if self.message in ['1', '2', '3', '4']:
@@ -99,15 +129,16 @@ class USSDProcessor(object):
         else:
             return self.verification_response(error=True)
 
-    def location(self):
-        message = u'Please enter a location:'
+    def enter_location(self, error=False):
+        message = u'Please enter your location:'
         return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.LOCATION)
 
-    def enter_location(self, error=False):
+    def info_reward(self):
         ussd_record = self.get_ussd_record()
         ussd_record.location = self.message
         ussd_record.save()
-        return self.process_response(message='Awesome your account has been credited with GHC 2.\nThank you',
+        message = u'Awesome your account has been credited with GHC 2.\nThank you'
+        return self.process_response(message=message,
                                      client_state=self.FINISH, response_type=self.RELEASE)
 
     def process_response(self, message, response_type, client_state):
@@ -120,7 +151,8 @@ class USSDProcessor(object):
         return session
 
     def exit_session(self):
-        return self.process_response(message='Thank You', client_state=self.FINISH, response_type=self.RELEASE)
+        message = u'Thank You'
+        return self.process_response(message=message, client_state=self.FINISH, response_type=self.RELEASE)
 
     def get_ussd_record(self):
         try:
