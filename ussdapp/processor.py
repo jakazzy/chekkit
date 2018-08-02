@@ -1,4 +1,3 @@
-from rest_framework import status
 from rest_framework.response import Response
 
 from product.models import ProductCode
@@ -73,7 +72,7 @@ class USSDProcessor(object):
             return self.welcome_menu(error=True)
 
     def enter_product_code(self, error=False):
-        error_text = 'Please enter a valid product code\n' if error else ''
+        error_text = 'Please enter a *valid* product code\n' if error else ''
         message = u'{}Please enter product code:'.format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.VERIFY_PRODUCT)
 
@@ -143,7 +142,7 @@ class USSDProcessor(object):
 
     def process_response(self, message, response_type, client_state):
         response_dict = dict(Message=message, ClientState=client_state, Type=response_type)
-        return Response(response_dict, status=status.HTTP_200_OK)
+        return Response(response_dict)
 
     def record_session(self, data):
         session, created = UssdRecord.objects.update_or_create(session_id=self.session_id, mobile=self.mobile,
