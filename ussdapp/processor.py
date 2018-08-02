@@ -122,16 +122,16 @@ class USSDProcessor(object):
             ussd_record.save()
             return self.enter_location(error=True)
         else:
-            return self.verification_response(error=True)
+            return self.verification_response(verified=True, error=True)
 
     def complaint(self, error=False):
-        if self.message in ['1', '2', '3', '4']:
+        if self.message:
             ussd_record = self.get_ussd_record()
             ussd_record.complaint = self.message
             ussd_record.save()
-            return self.enter_location(error=True)
+            return self.exit_session()
         else:
-            return self.verification_response(error=True)
+            return self.enter_location(error=True)
 
     def enter_location(self, error=False):
         message = u'Please enter your location:'
