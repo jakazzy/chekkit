@@ -127,7 +127,7 @@ class USSDProcessor(object):
     def complaint(self, error=False):
         if self.message:
             ussd_record = self.get_ussd_record()
-            ussd_record.complaint = self.message
+            ussd_record.location = self.message
             ussd_record.save()
             return self.exit_session()
         else:
@@ -135,13 +135,13 @@ class USSDProcessor(object):
 
     def enter_location(self, error=False):
         message = u'Please enter your location:'
-        return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.LOCATION)
+        return self.info_reward()
 
     def info_reward(self):
         ussd_record = self.get_ussd_record()
         ussd_record.location = self.message
         ussd_record.save()
-        message = u'Awesome your account has been credited with GHC 2.\nThank you'
+        message = u'Wonderful your account has been credited with GHC 2.\nThank you'
         return self.process_response(message=message,
                                      client_state=self.FINISH, response_type=self.RELEASE)
 
@@ -161,6 +161,13 @@ class USSDProcessor(object):
             return session
 
     def exit_session(self):
+        message = u'Thank You'
+        return self.process_response(message=message, client_state=self.FINISH, response_type=self.RELEASE)
+
+    def accept_location_exit_session(self):
+        ussd_record = self.get_ussd_record()
+        ussd_record.location = self.message
+        ussd_record.save()
         message = u'Thank You'
         return self.process_response(message=message, client_state=self.FINISH, response_type=self.RELEASE)
 
