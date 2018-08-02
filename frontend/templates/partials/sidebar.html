@@ -34,7 +34,7 @@
 
                 <li>
                     <a class="{% if batch_number.uuid == batch_object.uuid %}is-active trans-400{% endif %}"
-                       href="{% url 'product:batch_detail' batch_number.uuid %}"># {{ batch_number.batch_number }}</a>
+                       href="{% url 'product:batch_detail' batch_number.uuid %}"># {{ batch_number }}</a>
                 </li>
             {% endfor %}
 

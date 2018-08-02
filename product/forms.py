@@ -1,8 +1,7 @@
-from django import forms
 from django.forms import ModelForm
 
 from accounts.models import Location
-from .models import ProductLine, ProductCode, Batch
+from .models import ProductLine, ProductCode, Batch, CodeCollection
 
 
 class ProductLineForm(ModelForm):
@@ -11,30 +10,32 @@ class ProductLineForm(ModelForm):
         fields = ['product_name', 'description']
 
 
-class BaseProductCodeForm(ModelForm):
-    quantity = forms.IntegerField(label='Quantity of Product Codes that should be generated')
-
+class CodeCollectionForm(ModelForm):
     class Meta:
-        model = ProductCode
-        fields = ['quantity']
+        model = CodeCollection
+        exclude = ('generated_by',)
 
 
-class ProductCodeForm(BaseProductCodeForm):
+class ProductCodeForm(ModelForm):
     def __init__(self, manufacturer=None, *args, **kwargs):
         super(ProductCodeForm, self).__init__(*args, **kwargs)
         if manufacturer:
             self.fields['product_line'].queryset = ProductLine.objects.filter(manufacturer=manufacturer)
 
-    class Meta(BaseProductCodeForm.Meta):
+    class Meta:
         model = ProductCode
-        fields = BaseProductCodeForm.Meta.fields + ['product_line']
+        fields = ['product_line']
 
 
-class ProductCodeFromBatchForm(BaseProductCodeForm):
-    class Meta(BaseProductCodeForm.Meta):
+class ProductCodeFromBatchForm(ModelForm):
+    def __init__(self, manufacturer=None, *args, **kwargs):
+        super(ProductCodeFromBatchForm, self).__init__(*args, **kwargs)
+        if manufacturer:
+            self.fields['product_line'].queryset = ProductLine.objects.filter(manufacturer=manufacturer)
+
+    class Meta:
         model = ProductCode
-        # fields = BaseProductCodeForm.Meta.fields + ['batch_number']
-        fields = BaseProductCodeForm.Meta.fields
+        fields = ['batch_number']
 
 
 class BatchForm(ModelForm):

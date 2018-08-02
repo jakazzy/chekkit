@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from product.models import ProductLine, ProductCode, Batch
-from .forms import ProductLineForm, ProductCodeForm, BatchForm, ProductCodeFromBatchForm
+from .forms import ProductLineForm, ProductCodeForm, BatchForm, ProductCodeFromBatchForm, CodeCollectionForm
 
 
 # Create your views here.
@@ -22,7 +23,6 @@ def add_productlines(request):
     return render(request, 'product/add_productline.html', {'form': form})
 
 
-from django.core.paginator import Paginator
 
 
 def product_line(request, uuid):
@@ -50,12 +50,15 @@ def batch_detail(request, uuid):
 def generate_product_codes(request, uuid=None):
     current_user_manufacturer = request.user.profile.manufacturer
     if request.method == 'POST':
+        collection_form = CodeCollectionForm(request.POST)
         product_form = ProductCodeForm(current_user_manufacturer, request.POST)
         batch_form = BatchForm(current_user_manufacturer, request.POST)
         print('product: ', product_form.is_valid())
         print('batch: ', batch_form.is_valid())
-        if product_form.is_valid() and batch_form.is_valid():
-
+        if product_form.is_valid() and collection_form.is_valid() and batch_form.is_valid():
+            collection = collection_form.save(commit=False)
+            collection.generated_by = request.user
+            collection.save()
             product = product_form.save(commit=False)
 
             batch = batch_form.save(commit=False)
@@ -63,16 +66,14 @@ def generate_product_codes(request, uuid=None):
             batch.product_line = product.product_line
             batch.save()
 
-            quantity = product_form.cleaned_data['quantity']
-
-            for c_time in range(0, quantity):
-                ProductCode.objects.create(batch_number=batch, generated_by=request.user,
-                                           product_line=product.product_line)
+            for c_time in range(0, collection.quantity):
+                ProductCode.objects.create(batch_number=batch, product_line=product.product_line, collection=collection)
 
             return redirect(reverse('product:detail_productline', args=(product.product_line.uuid,)))
         return redirect('/')
     else:
         batch_form = BatchForm(current_user_manufacturer)
+        collection_form = CodeCollectionForm()
         if uuid:
             product_line = ProductLine.objects.get(uuid=uuid)
             product_form = ProductCodeForm(current_user_manufacturer, initial={'product_line': product_line})
@@ -80,7 +81,7 @@ def generate_product_codes(request, uuid=None):
             product_form = ProductCodeForm(current_user_manufacturer)
         return render(request, 'product/generate_product_codes.html',
                       {'product_form': product_form, 'batch_form': batch_form,
-                       'manufacturer': current_user_manufacturer})
+                       'manufacturer': current_user_manufacturer, 'collection_form': collection_form})
 
 
 @login_required()

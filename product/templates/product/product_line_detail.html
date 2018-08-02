@@ -5,7 +5,7 @@
 {% load thumbnail %}
 {% load qr_code %}
 {% block main %}
-    <header class="hero is-small is-black">
+    <header class="hero is-small">
         <div class="hero-body columns">
             <div class="column is-2">
                 <figure class="image is-128x128">
@@ -24,11 +24,10 @@
             <div class="column is-10 w3-container">
 
                 <h1 class="title">{{ product_line_object }}</h1>
-                <p class="subtitle">{{ product_line_object.description }}</p>
-                <a class="button is-link is-medium"
+                <p class="subtitle">{{ product_line_object.description|default:'Product Description ...' }}</p>
+                <a class="button is-link is-medium is-outlined"
                    href="{% url 'product:generate_product_codes_for_line' product_line_object.uuid %}">Generate Product
-                    Codes
-                    for {{ product_line_object.product_name }}</a>
+                    Codes</a>
             </div>
         </div>
     </header>

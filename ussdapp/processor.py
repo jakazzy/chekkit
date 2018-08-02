@@ -53,7 +53,7 @@ class USSDProcessor(object):
 
     def welcome_menu(self, error=False):
         error_text = 'Invalid Selection\n' if error else ''
-        message = "{}Welcome To Chekkit:\n\n1.Verify Product\n2.Exit".format(error_text)
+        message = u"{}Welcome To Chekkit:\n\n1.Verify Product\n2.Exit".format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE,
                                      client_state=self.VERIFY_PRODUCT_MENU)
 
