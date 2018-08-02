@@ -89,7 +89,7 @@ class USSDProcessor(object):
             try:
                 product = ProductCode.objects.get(product_code=product_code)
                 return self.verification_response(verified=True)
-            except ProductCode.DoesNotExist or ValueError:
+            except ProductCode.DoesNotExist:
                 return self.verification_response(verified=False)
 
         else:
