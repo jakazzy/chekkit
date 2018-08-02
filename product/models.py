@@ -63,7 +63,7 @@ class Batch(models.Model):
 
 
 class ProductCode(models.Model):
-    product_code = models.IntegerField(unique=True)
+    product_code = models.BigIntegerField(unique=True)
     product_line = models.ForeignKey(ProductLine, on_delete=models.CASCADE)
     batch_number = models.ForeignKey(Batch, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
@@ -92,13 +92,11 @@ class ProductCode(models.Model):
         time_stamp = self.get_timestamp()
 
         new_code = common_code + self.rand_string({"length": 6}) + time_stamp[14:]
-        if (len(new_code) < 16):
+        if new_code.__len__() < 16:
             new_code += ("0" * (16 - len(new_code)))
 
         return new_code
 
-    def get_code(self):
-        return randint(100, 3000)
 
     def save(self, *args, **kwargs):
         if self._state.adding:
