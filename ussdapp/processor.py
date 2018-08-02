@@ -72,7 +72,7 @@ class USSDProcessor(object):
             return self.welcome_menu(error=True)
 
     def enter_product_code(self, error=False):
-        error_text = 'Please enter a *valid* product code\n' if error else ''
+        error_text = 'Invalid code, try again...\n' if error else ''
         message = u'{}Please enter product code:'.format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.VERIFY_PRODUCT)
 
