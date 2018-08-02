@@ -8,7 +8,7 @@ class UssdRecord(models.Model):
     COMPLAINT_CHOICES = (('1', 'No complaint'),
                          ('2', 'Product below quality'),
                          ('3', 'Product too expensive'),)
-    session_id = models.CharField(max_length=50)
+    session_id = models.CharField(max_length=140)
     mobile = models.CharField(max_length=15)
     product_line = models.ForeignKey(ProductLine, blank=True, null=True, on_delete=models.SET_NULL)
     complaint = models.CharField(max_length=100, choices=COMPLAINT_CHOICES, blank=True, null=True)

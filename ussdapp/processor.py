@@ -145,9 +145,15 @@ class USSDProcessor(object):
         return Response(response_dict)
 
     def record_session(self, data):
-        session, created = UssdRecord.objects.update_or_create(session_id=self.session_id, mobile=self.mobile,
-                                                               gateway=self.gateway, data=data)
-        return session
+        try:
+            session = UssdRecord.objects.get(session_id=self.session_id)
+            session.data = data
+            session.save()
+            return session
+        except UssdRecord.DoesNotExist:
+            session = UssdRecord.objects.create(session_id=self.session_id, mobile=self.mobile,
+                                                gateway=self.gateway, data=data)
+            return session
 
     def exit_session(self):
         message = u'Thank You'
