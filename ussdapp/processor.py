@@ -141,7 +141,7 @@ class USSDProcessor(object):
         ussd_record = self.get_ussd_record()
         ussd_record.location = self.message
         ussd_record.save()
-        message = u'Wonderful your account has been credited with GHC 2.\nThank you'
+        message = u'Wonderful! \nYour account has been credited with GHC 2.\nThank you'
         return self.process_response(message=message,
                                      client_state=self.FINISH, response_type=self.RELEASE)
 
