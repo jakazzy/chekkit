@@ -67,7 +67,7 @@ def generate_product_codes(request, uuid=None):
             batch.save()
 
             for c_time in range(0, collection.quantity):
-                ProductCode.objects.create(batch_number=batch, product_line=product.product_line, collection=collection)
+                ProductCode.objects.create(batch_number=batch, product_line=product.product_line)
 
             return redirect(reverse('product:detail_productline', args=(product.product_line.uuid,)))
         return redirect('/')
