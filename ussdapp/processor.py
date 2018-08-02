@@ -80,10 +80,12 @@ class USSDProcessor(object):
         if self.message:
             product_code = self.message
             try:
-                if product_code.__len__() != 16 or int(product_code):
+                if product_code.__len__() != 16:
                     return self.enter_product_code(error=True)
+                int(product_code)
             except ValueError:
                 return self.enter_product_code(error=True)
+
             try:
                 product = ProductCode.objects.get(product_code=product_code)
                 return self.verification_response(verified=True)
