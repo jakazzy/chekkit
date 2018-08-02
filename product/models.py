@@ -79,7 +79,7 @@ class CodeCollection(models.Model):
 class ProductCode(models.Model):
     product_code = models.BigIntegerField(unique=True)
     product_line = models.ForeignKey(ProductLine, on_delete=models.CASCADE)
-    collection = models.ForeignKey(CodeCollection, on_delete=models.CASCADE)
+    collection = models.ForeignKey(CodeCollection, on_delete=models.CASCADE, null=True, blank=True)
     batch_number = models.ForeignKey(Batch, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     activated = models.BooleanField(default=False)
