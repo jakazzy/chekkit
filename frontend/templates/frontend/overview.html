@@ -1,4 +1,6 @@
 {% extends 'index.html' %}
+{% load product_lines_tag %}
+{% load bulma_tags %}
 {% block title %}
     Overview
 {% endblock %}
@@ -28,4 +30,61 @@
             {% endfor %}
         </div>
     </div>
+    {% if create_manufacturer_form %}
+        <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Welcome to Chekkit, {{ request.user.first_name }}</p>
+                </header>
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <section class="modal-card-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem consectetur cumque
+                        dignissimos, dolorum earum expedita iusto maiores molestiae molestias neque, obcaecati suscipit
+                        totam voluptates. Consequuntur praesentium suscipit voluptatum.
+                        {{ create_manufacturer_form|bulma }}
+                        {{ profile_form|bulma }}
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button is-link" type="submit">Continue</button>
+                    </footer>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        {% with request|product_lines as pl %}
+            {% if pl|length == 0 %}
+                <div class="modal is-active w3-animate-right">
+                    <div class="modal-background"></div>
+                    <div class="modal-card">
+                        {#                        <header class="modal-card-head">#}
+                        {#                            <p class="modal-card-title">Choose an action</p>#}
+                        {#                <button class="delete" aria-label="close"></button>#}
+                        {#                        </header>#}
+                        <section class="modal-card-body w3-padding-64">
+                            <div class="w3-half w3-center">
+                                <h1 class="subtitle menu-label w3-large" style="text-decoration: none">Generate
+                                    Code</h1>
+                                <a href="{% url 'product:create_product_line' %}?next={% url 'product:generate_product_codes' %}"
+                                   class="is-white w3-large is-link is-outlined trans-400">
+                                    <i class="fas fa-qrcode fa-3x"></i>
+                                </a>
+                            </div>
+                            <div class="w3-half w3-center">
+                                <h1 class="subtitle menu-label w3-large" style="text-decoration: none">Invite
+                                    Co-workers</h1>
+                                <a href="{% url 'invitations:send-invite' %}"
+                                   class="is-white w3-large is-link is-outlined trans-400">
+                                    <i class="fas fa-address-card fa-3x"></i>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+
+
 {% endblock %}

@@ -2,7 +2,6 @@
 {% block title %}
 {{ batch_object }}
 {% endblock %}
-{% load qr_code %}
 {% block main %}
     <header class="hero is-small is-black">
         <div class="hero-body columns">
@@ -24,11 +23,8 @@
     <section class="w3-margin">
         <div class="columns is-multiline is-centered">
             {% for product_code in product_codes %}
-                <div class="column is-3 w3-center">
-                    <div class="w3-padding w3-margin w3-border">
-                        {% qr_from_text product_code.product_code size="m" image_format="png" error_correction="L" %}
-                        {{ product_code }}
-                    </div>
+                <div class="column is-4 w3-center">
+                    {% include 'partials/product_code.html' %}
                 </div>
             {% endfor %}
             {% if product_codes.has_next %}

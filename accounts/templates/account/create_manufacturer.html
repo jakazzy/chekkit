@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+{% block title %}
+    Create Manufacturer
+{% endblock %}e
+{% load bulma_tags %}
+{% block main %}
+    <div class="container w3-padding-large">
+        <h1 class="menu-label w3-xlarge">Create Manufacturer</h1>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ create_manufacturer_form|bulma }}
+            <input type="submit" class="button is-link" value="Create Product Line"/>
+        </form>
+    </div>
+{% endblock %}

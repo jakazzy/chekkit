@@ -8,6 +8,8 @@
         <li><a class="{% if overview %}is-active trans-400{% endif %}" href="/">Oveview</a></li>
         <li><a class="{% if activity %}is-active trans-400{% endif %}" href="{% url 'frontend:activity' %}">Activity</a></li>
         <li><a class="{% if analytics %}is-active trans-400{% endif %}" href="{% url 'frontend:analytics' %}">Analytics</a></li>
+        <li><a class="{% if collections %}is-active trans-400{% endif %}" href="{% url 'frontend:collections' %}">Collections</a>
+        </li>
     </ul>
     <p class="menu-label">
         Product Lines

@@ -1,0 +1,12 @@
+{% load qr_code %}
+<div class="w3-padding w3-margin w3-border">
+    {% qr_from_text product_code.product_code size="m" image_format="png" error_correction="L" %}
+    <small>
+        {{ product_code.readable_product_code }}
+        {% if product_code.activated %}
+            <i class="fas fa-check-circle w3-text-green" title="Code activated"></i>
+        {% else %}
+            <i class="fas fa-check-circle w3-text-grey" title="Code not activated"></i>
+        {% endif %}
+    </small>
+</div>

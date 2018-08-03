@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% block title %}
+Create Product Line
+{% endblock %}
+{% load bulma_tags %}
+{% block main %}
+<div class="container w3-padding-large">
+    <h1 class="menu-label w3-xlarge">Create Product Line</h1>
+    <form action="." method="post">
+        <input type="hidden" name="next" value="{{ next }}"/>
+          {% csrf_token %}
+        {{ create_product_line_form|bulma }}
+        <input type="submit" class="button is-link" value="Create Product Line"/>
+      </form>
+  </div>
+{% endblock %}

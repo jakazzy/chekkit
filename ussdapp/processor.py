@@ -88,7 +88,12 @@ class USSDProcessor(object):
 
             try:
                 product = ProductCode.objects.get(product_code=product_code)
-                return self.verification_response(verified=True)
+                if not product.activated:
+                    product.activated = True
+                    product.activation_count = product.activation_count + 1
+                    return self.verification_response(verified=True)
+                else:
+                    return self.verification_response(verified=False)
             except ProductCode.DoesNotExist:
                 return self.verification_response(verified=False)
 

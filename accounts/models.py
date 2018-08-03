@@ -14,6 +14,28 @@ from invitations.models import Invitation
 from invitations.signals import invite_accepted
 
 
+class Position(models.Model):
+    name = models.CharField(max_length=140)
+
+    class Meta:
+        verbose_name = 'Manufacturer Position'
+        verbose_name_plural = 'Manufacturer Positions'
+
+    def __str__(self):
+        return self.name
+
+
+class Industry(models.Model):
+    name = models.CharField(max_length=140)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Industry'
+        verbose_name_plural = 'Industries'
+
+
 def validate_code_length(value):
     if len(str(value)) != 4:
         raise ValidationError(
@@ -24,10 +46,12 @@ def validate_code_length(value):
 class Manufacturer(models.Model):
     code = models.IntegerField(unique=True, validators=[validate_code_length], editable=False)
     name = models.CharField(max_length=200)
-    industry = models.CharField(max_length=400)
+    industry = models.ForeignKey(Industry, on_delete=models.CASCADE, null=True, blank=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
+
 
     def save(self, *args, **kwargs):
         if self._state.adding:
@@ -54,6 +78,8 @@ class Profile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, blank=True, null=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+    activated = models.BooleanField(default=False)
 
     # is_admin, boolean
 

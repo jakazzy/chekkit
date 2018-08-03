@@ -9,18 +9,23 @@ from .forms import ProductLineForm, ProductCodeForm, BatchForm, ProductCodeFromB
 
 # Create your views here.
 @login_required()
-def add_productlines(request):
+def create_product_line(request):
+    next = request.GET.get('next', '/')
     if request.method == 'POST':
-        form = ProductLineForm(request.POST)
-        if form.is_valid():
-            product_line = form.save(commit=False)
+        create_product_line_form = ProductLineForm(request.POST)
+        if create_product_line_form.is_valid():
+            product_line = create_product_line_form.save(commit=False)
             product_line.manufacturer = request.user.profile.manufacturer
             product_line.save()
-
-            return redirect(reverse('product:detail_productline', args=(product_line.uuid,)))
+            next = request.POST.get('next')
+            if next != '/':
+                return redirect(next + str(product_line.uuid) + '/')
+            else:
+                return redirect(reverse('product:detail_productline', args=(product_line.uuid,)))
     else:
-        form = ProductLineForm()
-    return render(request, 'product/add_productline.html', {'form': form})
+        create_product_line_form = ProductLineForm()
+    return render(request, 'product/create_product_line.html',
+                  {'create_product_line_form': create_product_line_form, 'next': next})
 
 
 

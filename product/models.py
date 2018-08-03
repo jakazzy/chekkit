@@ -47,16 +47,16 @@ class ProductLine(models.Model):
 class Batch(models.Model):
     product_line = models.ForeignKey(ProductLine, on_delete=models.CASCADE)
     uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
-    production_date = models.DateField(default=datetime.now, blank=True, null=True)
-    expiry_date = models.DateField(default=datetime.now, blank=True, null=True)
+    production_date = models.DateField(default=datetime.now)
+    expiry_date = models.DateField(default=datetime.now)
     batch_number = models.IntegerField(blank=True, null=True, default=randint(0, 999999))
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     @property
     def manufacturer(self):
         try:
             return self.location.manufacturer_name
-        except Exception:
+        except:
             pass
 
     def __str__(self):
@@ -83,6 +83,12 @@ class ProductCode(models.Model):
     batch_number = models.ForeignKey(Batch, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     activated = models.BooleanField(default=False)
+    activation_count = models.IntegerField(default=0)
+
+    @property
+    def readable_product_code(self):
+        code = str(self.product_code)
+        return code[0:4] + ' ' + code[4:8] + ' ' + code[8:12] + ' ' + code[12:16]
 
     def __str__(self):
         return str(self.product_code)

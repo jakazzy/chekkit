@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ user.profile.manufacturer }}
+{% endblock %}
+{% block content %}
+    <section class="hero is-black is-medium">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title has-text-centered">
+                    Welcome, {{ user.get_full_name|default:user.username }}
+                    <br>
+                    <strong>{{ user.profile.manufacturer }}</strong>
+                </h1>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Product Codes Generated</p>
+                            <p class="title">3,456</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Product Lines</p>
+                            <p class="title">123</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Remaining Product Codes</p>
+                            <p class="title">456K</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Platform Users</p>
+                            <p class="title">789</p>
+                        </div>
+                    </div>
+                </nav>
+                {#                <h2 class="subtitle has-text-centered">#}
+                {#                    <a class="button is-text is-white" href="{% url 'invitations:send-invite' %}">Invitee Co-workers /#}
+                {#                        Employees </a>#}
+                {##}
+                {#                </h2>#}
+            </div>
+        </div>
+    </section>
+    <div class="tabs is-centered is-medium">
+        <ul>
+            <li class="is-active" title="Code Collection are individual separate times product codes were generated"><a>Edit
+                Chekkit Details</a></li>
+            <li title="Manager your locations"><a>Manage Manufacturer Locations</a></li>
+            <li title="Change Billing Details"><a>Change Billing Details</a></li>
+        </ul>
+    </div>
+{% endblock %}

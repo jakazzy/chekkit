@@ -10,4 +10,3 @@ def product_lines(request):
 @register.filter
 def batch_numbers(request):
     return Batch.objects.filter(location__manufacturer=request.user.profile.manufacturer)
-

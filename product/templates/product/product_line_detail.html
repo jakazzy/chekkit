@@ -1,11 +1,10 @@
 {% extends 'index.html' %}
 {% block title %}
-{{ product_line_object }}
+    {{ product_line_object }}
 {% endblock %}
 {% load thumbnail %}
-{% load qr_code %}
 {% block main %}
-    <header class="hero is-small">
+    <header class="hero is-small is-link">
         <div class="hero-body columns">
             <div class="column is-2">
                 <figure class="image is-128x128">
@@ -25,21 +24,20 @@
 
                 <h1 class="title">{{ product_line_object }}</h1>
                 <p class="subtitle">{{ product_line_object.description|default:'Product Description ...' }}</p>
-                <a class="button is-link is-medium is-outlined"
+                <a class="button is-white trans-400 is-medium is-outlined"
                    href="{% url 'product:generate_product_codes_for_line' product_line_object.uuid %}">Generate Product
                     Codes</a>
+                <a class="button is-white trans-400 is-medium is-outlined"
+                   href="{% url 'frontend:collections' %}">View Collections</a>
             </div>
         </div>
     </header>
     <section class="w3-margin">
         <div class="columns is-multiline is-centered">
             {% for product_code in product_codes %}
-                <div class="column is-3 w3-center">
-                    <div class="w3-padding w3-margin w3-border">
-                        {% qr_from_text product_code.product_code size="m" image_format="png" error_correction="L" %}
-                        {{ product_code }}
-                    </div>
-                </div>
+                <a class="column is-4 w3-center">
+                    {% include 'partials/product_code.html' %}
+                </a>
             {% endfor %}
             {% if product_codes.has_next %}
                 {% with product_codes as page_obj %}
