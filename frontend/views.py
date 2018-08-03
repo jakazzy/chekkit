@@ -54,7 +54,7 @@ def analytics(request):
 
 
 def collections(request):
-    collection_object = CodeCollection.objects.filter(generated_by=request.user)
+    collection_object = CodeCollection.objects.filter(manufacturer=request.user.profile.manufacturer)
     context = {
         'collection_object': collection_object,
         'collections': True

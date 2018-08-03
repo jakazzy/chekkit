@@ -62,11 +62,11 @@ def generate_product_codes(request, uuid=None):
         print('batch: ', batch_form.is_valid())
         if product_form.is_valid() and collection_form.is_valid() and batch_form.is_valid():
             collection = collection_form.save(commit=False)
-            collection.generated_by = request.user
-            collection.save()
             product = product_form.save(commit=False)
-
             batch = batch_form.save(commit=False)
+
+            collection.manufacturer = product.product_line.manufacturer
+            collection.save()
 
             batch.product_line = product.product_line
             batch.save()
