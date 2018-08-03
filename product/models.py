@@ -68,6 +68,7 @@ class Batch(models.Model):
 
 
 class CodeCollection(models.Model):
+    id = models.IntegerField(primary_key=True, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     generated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     quantity = models.IntegerField()
