@@ -1,6 +1,7 @@
 {% load qr_code %}
-<div class="w3-padding w3-margin w3-border {% if product_code.activated %}w3-green{% endif %}">
+<div class="w3-margin {% if product_code.activated %}w3-green{% endif %}">
     {% qr_from_text product_code.product_code size="m" image_format="png" error_correction="L" %}
+    <br>
     <small>
         {{ product_code.readable_product_code }}
         {% if product_code.activated %}

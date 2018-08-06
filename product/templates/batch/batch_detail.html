@@ -14,16 +14,16 @@
 
                 <h1 class="title"># {{ batch_object }}</h1>
                 <h1 class="subtitle">{{ batch_object.product_line.product_name }}</h1>
-                <a class="button is-link is-medium"
+                <a class="w3-btn w3-white"
                    href="{% url 'product:generate_product_codes_for_batch' batch_object.uuid %}">Generate Product Codes
                     for Batch {{ batch_object.batch_number }}</a>
             </div>
         </div>
     </header>
     <section class="w3-margin">
-        <div class="columns is-multiline is-centered">
+        <div class="columns is-multiline">
             {% for product_code in product_codes %}
-                <div class="column is-4 w3-center">
+                <div class="column is-3 w3-center">
                     {% include 'partials/product_code.html' %}
                 </div>
             {% endfor %}

@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block title %}
+    {{ product_code_object }}
+{% endblock %}
+{% block main %}
+    <header class="hero is-small is-black is-small">
+        <div class="hero-body w3-center" style="max-width: 400px; max-height: 400px; margin: auto">
+            {% with product_code_object as product_code %}
+                {% include 'partials/product_code.html' %}
+            {% endwith %}
+        </div>
+    </header>
+
+{% endblock %}

@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import ModelForm
 
 from accounts.models import Location
@@ -5,9 +6,13 @@ from .models import ProductLine, ProductCode, Batch, CodeCollection
 
 
 class ProductLineForm(ModelForm):
+
     class Meta:
         model = ProductLine
-        fields = ['product_name', 'description']
+        fields = ['product_name', 'description', 'photo']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5}),
+        }
 
 
 class CodeCollectionForm(ModelForm):

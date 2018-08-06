@@ -12,6 +12,7 @@ urlpatterns = [
          name='generate_product_codes_for_batch'),
     path('generate/<uuid:uuid>/', views.generate_product_codes, name='generate_product_codes_for_line'),
     path('generate/', views.generate_product_codes, name='generate_product_codes'),
+    path('codes/<uuid:uuid><int:id>', views.product_code, name='code'),
 
 
 ]

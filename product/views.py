@@ -110,3 +110,8 @@ def generate_product_codes_for_batch(request, uuid):
         return render(request, 'product/generate_product_codes.html',
                       {'product_form': product_form,
                        'manufacturer': request.user.profile.manufacturer})
+
+
+def product_code(request, uuid, id):
+    product_code_object = ProductCode.objects.get(id=id, product_line__uuid=uuid)
+    return render(request, 'product/product_code.html', {'product_code_object': product_code_object})

@@ -47,7 +47,11 @@ select,
     transition: 400ms;
 }
 
-.menu-label{
-    font-weight: bolder;
-    text-decoration: underline;
+a {
+    color: #8bc34a;
+!important;
+}
+
+a.navbar-item:hover {
+    color: #8bc34a;
 }

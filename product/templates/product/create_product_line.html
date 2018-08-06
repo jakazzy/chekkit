@@ -1,16 +1,50 @@
 {% extends 'index.html' %}
 {% block title %}
-Create Product Line
+    Create Product Line
 {% endblock %}
 {% load bulma_tags %}
 {% block main %}
-<div class="container w3-padding-large">
-    <h1 class="menu-label w3-xlarge">Create Product Line</h1>
-    <form action="." method="post">
-        <input type="hidden" name="next" value="{{ next }}"/>
-          {% csrf_token %}
-        {{ create_product_line_form|bulma }}
-        <input type="submit" class="button is-link" value="Create Product Line"/>
-      </form>
-  </div>
+    <div class="modal is-active" id="cpl-modal">
+        <div class="modal-background" id="cpl-modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Create Product Line</p>
+            </header>
+            <form action="{% url 'product:create_product_line' %}" method="post">
+                <section class="modal-card-body">
+                    <input type="hidden" name="next" value="{{ next }}"/>
+                    {% csrf_token %}
+                    {% for field in create_product_line_form %}
+                        <div class="field">
+                            <label class="label">{{ field.label }}</label>
+                            <div class="control">
+                                {{ field|bulma_inline }}
+                            </div>
+                            {% if field.error %}
+                                <p class="help is-danger">{{ field.error|bulma_message_tag }}</p>
+                            {% endif %}
+                        </div>
+
+                    {% endfor %}
+
+                </section>
+                <footer class="modal-card-foot">
+                    <input type="submit" class="button w3-light-green w3-text-white is-text"
+                           value="Create Product Line"/>
+
+                </footer>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}
+    <script>
+        let modalBackground = document.getElementById('cpl-modal-background');
+        let modal = document.getElementById('cpl-modal');
+        modalBackground.addEventListener('click', () => {
+            window.location.href = '/'
+        })
+    </script>
 {% endblock %}

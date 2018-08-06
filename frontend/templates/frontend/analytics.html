@@ -1,7 +1,169 @@
 {% extends 'index.html' %}
 {% block title %}
-Analytics
+    Analytics
 {% endblock %}
 {% block main %}
+    <div class="w3-padding-large">
+        <nav class="level">
+            <a class="level-item has-text-centered w3-margin w3-padding w3-yellow w3-card-4 w3-padding-16">
+                <div>
+                    <p class="heading">Total Codes Generated</p>
+                    <p class="title">3,456</p>
+                </div>
+            </a>
+            <a class="level-item has-text-centered w3-margin w3-padding w3-light-blue w3-card-4 w3-padding-16">
+                <div>
+                    <p class="heading">Total Codes Tracked</p>
+                    <p class="title">123</p>
+                </div>
+            </a>
+            <a class="level-item has-text-centered w3-margin w3-padding w3-orange w3-card-4 w3-padding-16">
+                <div>
+                    <p class="heading">Total User Feedback</p>
+                    <p class="title">456K</p>
+                </div>
+            </a>
+            <a class="level-item has-text-centered w3-margin w3-padding w3-deep-orange w3-card-4 w3-padding-16">
+                <div>
+                    <p class="heading">Counterfeit Report</p>
+                    <p class="title">789</p>
+                </div>
+            </a>
+        </nav>
+        <canvas id="barChart" width="400" height="150" class="w3-card-4 w3-white w3-padding-large"></canvas>
+        <br>
+        <canvas id="scatterDiagram" width="400" height="150" class="w3-card-4 w3-white w3-padding-large"></canvas>
+        <br>
+        <br>
+        <div class="level w3-border-bottom">
+            <div class="level-left">
+                <div class="level-item heading w3-large title">User Feedback</div>
+            </div>
+            <div class="level-right">
+                <a class="level-item heading w3-large title has-text-weight-light w3-opacity w3-hover-opacity-off">Export&nbsp;<i
+                        class="fas fa-share-square"></i></a>
+            </div>
+        </div>
+        <div class="columns is-multiline">
+            {% for count in '12345' %}
+                <a class="column is-6">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4" style="margin-bottom: 0">John Smith</p>
+                                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                </div>
+                            </div>
 
+                            <div class="content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris.
+                                <br>
+                                <button class="button is-text is-black is-outlined w3-margin-top trans-400 reply-button">
+                                    Reply
+                                </button>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+
+    </div>
+    <div class="modal w3-animate-bottom trans-400" id="reply-modal">
+        <div class="modal-background" id="modal-background"></div>
+        <div class="modal-card">
+            <div class="modal-content">
+                <textarea class="textarea"></textarea>
+                <br>
+                <button class="button is-white" id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        var ctxBarChart = document.getElementById("barChart").getContext('2d');
+        var ctxScatterDiagram = document.getElementById("scatterDiagram").getContext('2d');
+        var barChart = new Chart(ctxBarChart, {
+            type: 'bar',
+            data: {
+                labels: ["East Legon Warehouse", "Osu Distribution Center", "Dansoman HQ", "West Legon Destribution", "Kumasi Depo", "Tamale Office Depo"],
+                datasets: [{
+                    label: '# of Good Distributed',
+                    data: [12, 13, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        var scatterChart = new Chart(ctxScatterDiagram, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Scatter Dataset',
+                    data: [{
+                        x: -10,
+                        y: 0
+                    }, {
+                        x: 0,
+                        y: 10
+                    }, {
+                        x: 10,
+                        y: 5
+                    }]
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+        const buttons = document.getElementsByClassName('reply-button');
+        const modal = document.getElementById('reply-modal');
+        const modalBackground = document.getElementById('modal-background');
+        const sendButton = document.getElementById('send-button');
+        for (let button of buttons) {
+            button.addEventListener('click', () => {
+                modal.classList.add('is-active')
+            })
+        }
+        modalBackground.addEventListener('click', () => {
+            modal.classList.remove('is-active')
+        });
+        sendButton.addEventListener('click', () => {
+            modal.classList.remove('is-active')
+        })
+    </script>
 {% endblock %}

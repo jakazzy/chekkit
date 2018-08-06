@@ -203,3 +203,21 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 INVITATIONS_SIGNUP_REDIRECT = '/accounts/signup/'
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+DEFAULT_FILE_STORAGE = 'chekkit.storage_backends.PublicMediaStorage'
+
+AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
+PRIVATE_FILE_STORAGE = 'chekkit.storage_backends.PrivateMediaStorage'
+
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

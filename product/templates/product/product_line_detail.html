@@ -4,7 +4,7 @@
 {% endblock %}
 {% load thumbnail %}
 {% block main %}
-    <header class="hero is-small is-link">
+    <header class="hero is-small w3-light-green">
         <div class="hero-body columns">
             <div class="column is-2">
                 <figure class="image is-128x128">
@@ -20,22 +20,23 @@
                     {% endif %}
                 </figure>
             </div>
-            <div class="column is-10 w3-container">
+            <div class="column is-10 w3-container w3-margin-left">
 
-                <h1 class="title">{{ product_line_object }}</h1>
-                <p class="subtitle">{{ product_line_object.description|default:'Product Description ...' }}</p>
-                <a class="button is-white trans-400 is-medium is-outlined"
+                <h1 class="title w3-text-white">{{ product_line_object }}</h1>
+                <p class="subtitle w3-text-white">{{ product_line_object.description|default:'Product Description ...' }}</p>
+                <a class="w3-btn w3-white"
                    href="{% url 'product:generate_product_codes_for_line' product_line_object.uuid %}">Generate Product
                     Codes</a>
-                <a class="button is-white trans-400 is-medium is-outlined"
+                <a class="w3-btn w3-white"
                    href="{% url 'frontend:collections' %}">View Collections</a>
             </div>
         </div>
     </header>
     <section class="w3-margin">
-        <div class="columns is-multiline is-centered">
+        <div class="columns is-multiline">
             {% for product_code in product_codes %}
-                <a class="column is-4 w3-center">
+                <a class="column is-3 w3-center"
+                   href="{% url 'product:code' product_code.product_line.uuid product_code.id %}">
                     {% include 'partials/product_code.html' %}
                 </a>
             {% endfor %}

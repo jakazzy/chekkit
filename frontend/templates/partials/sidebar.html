@@ -5,10 +5,18 @@
         General
     </p>
     <ul class="menu-list">
-        <li><a class="{% if overview %}is-active trans-400{% endif %}" href="/">Oveview</a></li>
-        <li><a class="{% if activity %}is-active trans-400{% endif %}" href="{% url 'frontend:activity' %}">Activity</a></li>
-        <li><a class="{% if analytics %}is-active trans-400{% endif %}" href="{% url 'frontend:analytics' %}">Analytics</a></li>
-        <li><a class="{% if collections %}is-active trans-400{% endif %}" href="{% url 'frontend:collections' %}">Collections</a>
+        <li class="w3-large"><a
+                class="{% if overview %}w3-light-green w3-text-white trans-400 has-text-weight-bold{% endif %}"
+                href="/"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;Oveview</a></li>
+        <li class="w3-large"><a
+                class="{% if activity %}w3-light-green w3-text-white trans-400 has-text-weight-bold{% endif %}"
+                href="{% url 'frontend:activity' %}"><i class="fas fa-chart-line"></i>&nbsp;&nbsp;Activity</a></li>
+        <li class="w3-large"><a
+                class="{% if analytics %}w3-light-green w3-text-white trans-400 has-text-weight-bold{% endif %}"
+                href="{% url 'frontend:analytics' %}"><i class="fas fa-chart-pie"></i>&nbsp;&nbsp;Analytics</a></li>
+        <li class="w3-large"><a
+                class="{% if collections %}w3-light-green w3-text-white trans-400 has-text-weight-bold{% endif %}"
+                href="{% url 'frontend:collections' %}"><i class="fas fa-layer-group"></i>&nbsp;&nbsp;Collections</a>
         </li>
     </ul>
     <p class="menu-label">
@@ -18,8 +26,8 @@
         {% with request|product_lines as pl %}
             {% for product_line in pl %}
 
-                <li>
-                    <a class="{% if product_line.uuid == product_line_object.uuid %}is-active trans-400{% endif %}"
+                <li class="w3-large">
+                    <a class="{% if product_line.uuid == product_line_object.uuid %}w3-light-green w3-text-white trans-400{% endif %}"
                        href="{% url 'product:detail_productline' product_line.uuid %}">{{ product_line.product_name }}</a>
                 </li>
             {% endfor %}
@@ -27,20 +35,22 @@
         {% endwith %}
 
     </ul>
-    <p class="menu-label">
-        Batch Numbers
-    </p>
-    <ul class="menu-list">
-        {% with request|batch_numbers as bn %}
-            {% for batch_number in bn %}
+    {% with request|batch_numbers as bn %}
+        {% if bn %}
+            <p class="menu-label">
+                Batch Numbers
+            </p>
+            <ul class="menu-list">
+                {% for batch_number in bn %}
 
-                <li>
-                    <a class="{% if batch_number.uuid == batch_object.uuid %}is-active trans-400{% endif %}"
-                       href="{% url 'product:batch_detail' batch_number.uuid %}"># {{ batch_number }}</a>
-                </li>
-            {% endfor %}
+                    <li class="w3-large">
+                        <a class="{% if batch_number.uuid == batch_object.uuid %}w3-light-green w3-text-white trans-400{% endif %}"
+                           href="{% url 'product:batch_detail' batch_number.uuid %}"># {{ batch_number }}</a>
+                    </li>
+                {% endfor %}
 
-        {% endwith %}
-
-    </ul>
+            </ul>
+        {% endif %}
+    {% endwith %}
 </aside>
+

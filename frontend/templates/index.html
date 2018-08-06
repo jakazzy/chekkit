@@ -3,7 +3,8 @@
 
 {% endblock %}
 {% block content %}
-    <div class="w3-quarter w3-white" style="overflow-y:auto;top: 64px; bottom: 0; height: 100%; position: fixed">
+    <div class="w3-quarter w3-white w3-card-4"
+         style="overflow-y:auto;top: 64px; bottom: 0; height: 100%; position: fixed">
         {% include 'partials/sidebar.html' %}
     </div>
     <div class="w3-threequarter w3-animate-right w3-right">
@@ -12,5 +13,8 @@
     {% endblock %}
     </div>
 
+
+{% endblock %}
+{% block script %}
 
 {% endblock %}

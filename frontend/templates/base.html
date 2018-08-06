@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{% static 'frontend/css/w3.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <link rel="stylesheet" href="{% static 'frontend/css/styles.css' %}">
     {% block css %}
 
@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-<nav class="navbar w3-border-bottom" role="navigation" aria-label="main navigation"
+<nav class="navbar w3-border-bottom w3-card-4" role="navigation" aria-label="main navigation"
      style="padding: 6px 0; position: fixed; top: 0; width: 100%;{% if request.user.is_authenticated and not request.user.profile.activated %}z-index:-1{% endif %}">
 
     <div class="navbar-brand">
@@ -62,7 +62,7 @@
                                 Codes</a>
                         {% endif %}
                     {% endwith %}
-                    <a class="navbar-item w3-blue"
+                    <a class="navbar-item w3-light-green w3-text-white"
                        href="{% url 'accounts:manufacturer' %}">
                         {{ request.user.profile.manufacturer }}
                     </a>
@@ -87,6 +87,7 @@
 
     {% endblock %}
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 

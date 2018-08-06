@@ -1,20 +1,39 @@
 {% extends 'index.html' %}
 {% block title %}
-Generate Product Codes
+    Generate Product Codes
 {% endblock %}
 {% load bulma_tags staticfiles static %}
 
 {% block main %}
-    <div class="container w3-padding-large">
-        <form action="" method="post">
-            <h1 class="menu-label w3-xlarge">Create Product {{ manufacturer }}</h1>
-            {% csrf_token %}
-            {% if batch_form %}
-                {{ batch_form|bulma }}
-            {% endif %}
-            {{ collection_form|bulma }}
-            {{ product_form|bulma }}
-            <button type="submit" class="button is-link">Generate Codes</button>
-        </form>
+    <div class="modal is-active" id="gpc-modal">
+        <div class="modal-background" id="gpc-modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Generate Codes, {{ manufacturer }}</p>
+            </header>
+            <form action="." method="post">
+                <section class="modal-card-body">
+                    {% csrf_token %}
+                    {% if batch_form %}
+                        {{ batch_form|bulma }}
+                    {% endif %}
+                    {{ collection_form|bulma }}
+                    {{ product_form|bulma }}
+                </section>
+                <footer class="modal-card-foot">
+                    <input type="submit" class="button w3-light-green w3-text-white is-text"
+                           value="Generate Codes"/>
+                </footer>
+            </form>
+        </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        let modalBackground = document.getElementById('gpc-modal-background');
+        let modal = document.getElementById('gpc-modal');
+        modalBackground.addEventListener('click', () => {
+            window.location.href = '/'
+        })
+    </script>
 {% endblock %}

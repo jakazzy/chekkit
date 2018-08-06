@@ -9,7 +9,7 @@
     <div class="w3-container w3-margin-top">
         <div class="columns is-multiline">
             {% for product_line in product_lines %}
-                <div class="column is-4">
+                <div class="column is-3">
                     <section class="card">
                         <p class="card-header-title is-centered">
                             <a href="{% url 'product:detail_productline' product_line.uuid %}">{{ product_line.product_name }}</a>
@@ -62,18 +62,18 @@
                         {#                        </header>#}
                         <section class="modal-card-body w3-padding-64">
                             <div class="w3-half w3-center">
-                                <h1 class="subtitle menu-label w3-large" style="text-decoration: none">Generate
+                                <h1 class="heading menu-label w3-large" style="text-decoration: none">Generate
                                     Code</h1>
                                 <a href="{% url 'product:create_product_line' %}?next={% url 'product:generate_product_codes' %}"
-                                   class="is-white w3-large is-link is-outlined trans-400">
+                                   class="is-white w3-large w3-text-light-green is-outlined trans-400">
                                     <i class="fas fa-qrcode fa-3x"></i>
                                 </a>
                             </div>
                             <div class="w3-half w3-center">
-                                <h1 class="subtitle menu-label w3-large" style="text-decoration: none">Invite
+                                <h1 class="heading menu-label w3-large" style="text-decoration: none">Invite
                                     Co-workers</h1>
                                 <a href="{% url 'invitations:send-invite' %}"
-                                   class="is-white w3-large is-link is-outlined trans-400">
+                                   class="is-white w3-large w3-text-light-green is-outlined trans-400">
                                     <i class="fas fa-address-card fa-3x"></i>
                                 </a>
                             </div>
