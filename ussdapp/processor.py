@@ -102,7 +102,7 @@ class USSDProcessor(object):
 
     def verification_response(self, verified=True, error=False):
         error_text = 'Invalid input\n' if error else ''
-        feedback_menu = '{}To claim your reward please choose a feedback option below:\n' \
+        feedback_menu = '{}Claim a reward, choose feedback:\n' \
                         '1. No feedback\n ' \
                         '2. Product was below quality\n ' \
                         '3. Product is too expensive' \
@@ -121,7 +121,7 @@ class USSDProcessor(object):
             return self.process_response(message=message, response_type=self.RESPONSE, client_state=self.COMPLAINT)
 
     def feedback(self, error=False):
-        if self.message in ['1', '2', '3', '4']:
+        if self.message in ['1', '2', '3']:
             ussd_record = self.get_ussd_record()
             ussd_record.complaint = self.message
             ussd_record.save()
