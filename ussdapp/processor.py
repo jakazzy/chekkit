@@ -91,6 +91,7 @@ class USSDProcessor(object):
                 if not product.activated:
                     product.activated = True
                     product.activation_count = product.activation_count + 1
+                    product.save()
                     return self.verification_response(verified=True)
                 else:
                     return self.verification_response(verified=False)
