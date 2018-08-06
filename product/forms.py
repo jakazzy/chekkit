@@ -13,7 +13,7 @@ class ProductLineForm(ModelForm):
 class CodeCollectionForm(ModelForm):
     class Meta:
         model = CodeCollection
-        exclude = ('generated_by',)
+        fields = ('quantity',)
 
 
 class ProductCodeForm(ModelForm):
