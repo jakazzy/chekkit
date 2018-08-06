@@ -104,9 +104,9 @@ class USSDProcessor(object):
     def verification_response(self, verified=True, error=False):
         error_text = 'Invalid input\n' if error else ''
         feedback_menu = '{}Claim a reward, choose feedback:\n' \
-                        '1. No feedback\n ' \
-                        '2. Product was below quality\n ' \
-                        '3. Product is too expensive' \
+                        '1.No feedback\n' \
+                        '2.Product below quality\n' \
+                        '3.Product too expensive' \
             .format(error_text)
         message = u'Congratulations, this product is an original! \n\n{}'.format(
             feedback_menu) if verified else u'Warning, this product is not an original! \nPlease enter location of purchase:\n'
@@ -140,8 +140,8 @@ class USSDProcessor(object):
             return self.enter_location(error=True)
 
     def enter_location(self, error=False):
-        message = u'Please enter your location:'
-        return self.info_reward()
+        message = u'Please enter your location of purchase:'
+        return self.process_response(message=message, client_state=self.FINISH, response_type=self.RESPONSE)
 
     def info_reward(self):
         ussd_record = self.get_ussd_record()
