@@ -37,12 +37,12 @@
      style="padding: 6px 0; position: fixed; top: 0; width: 100%;{% if request.user.is_authenticated and not request.user.profile.activated %}z-index:-1{% endif %}">
 
     <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            Chekkit
-            {# <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">#}
+        <a class="navbar-item w3-margin-left" href="/">
+            <span class="title">Chekkit</span>
+            {#             <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">#}
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <a role="button" class="navbar-burger w3-margin-right" aria-label="menu" aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>

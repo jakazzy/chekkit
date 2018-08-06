@@ -66,6 +66,7 @@ def generate_product_codes(request, uuid=None):
             batch = batch_form.save(commit=False)
 
             collection.manufacturer = product.product_line.manufacturer
+            collection.product_line = product.product_line
             collection.save()
 
             batch.product_line = product.product_line

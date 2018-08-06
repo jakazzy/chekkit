@@ -13,24 +13,25 @@
             </div>
         </div>
     </header>
-    <section class="w3-margin">
+    <section class="w3-margin w3-container">
         <div class="columns is-multiline">
             {% for collection in collection_object %}
                 <div class="column is-4">
                     <div class="w3-padding-32 w3-padding w3-white">
-                        <label for="collection-date-created" class="menu-label">Generated On: </label>
+                        <label for="collection-date-created" class="menu-label w3-large">Generated On: </label>
                         <p id="collection-date-created">{{ collection.created|date }}
                             ({{ collection.created|timesince }})</p>
                         <br>
-                        <label for="collection-quantity" class="menu-label">Number of Codes: </label>
+                        <label for="collection-quantity" class="menu-label w3-large">Number of Codes: </label>
                         <p id="collection-quantity">{{ collection.quantity }}</p>
                         <br>
-                        <label for="collection-creator" class="menu-label">Manufacturer:</label>
-                        <p id="collection-creator">{{ collection.manufacturer }}</p>
+                        <label for="collection-creator" class="menu-label w3-large">Product Line:</label>
+                        <p id="collection-creator">{{ collection.product_line }}</p>
                     </div>
                     <div>
-                        <a href="" class="w3-half button w3-blue" style="border-radius: 0">Print</a>
-                        <a href="" class="w3-half button w3-black" style="border-radius: 0">Order</a>
+                        <a href="" class="w3-half button w3-light-green w3-text-white"
+                           style="border-radius: 0">Order</a>
+                        <a href="" class="w3-half button w3-black" style="border-radius: 0">Print</a>
                     </div>
                 </div>
             {% endfor %}
