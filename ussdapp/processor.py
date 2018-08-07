@@ -109,7 +109,7 @@ class USSDProcessor(object):
                         '3.Product too expensive' \
             .format(error_text)
         message = u'Congratulations, this product is an original! \n\n{}'.format(
-            feedback_menu) if verified else u'Warning, this product is not an original! \nPlease enter your location of purchase:\n'
+            feedback_menu) if verified else u'Warning, this product is not an original! \n\nPlease enter your location of purchase:\n'
         if verified:
             """
             Subsequent transaction after verifying that a product is original
