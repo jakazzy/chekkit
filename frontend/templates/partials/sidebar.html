@@ -1,7 +1,7 @@
 {% load product_lines_tag %}
 
 <aside class="menu w3-container w3-padding-large">
-    <p class="menu-label w3-xlarge w3-margin-top w3-text-light-green" style="font-weight: 900">
+    <p class="menu-label w3-large w3-margin-top w3-text-light-green" style="font-weight: 900">
         General
     </p>
     <ul class="menu-list">
@@ -19,7 +19,7 @@
                 href="{% url 'frontend:collections' %}"><i class="fas fa-layer-group"></i>&nbsp;&nbsp;Collections</a>
         </li>
     </ul>
-    <p class="menu-label w3-xlarge w3-margin-top w3-text-light-green" style="font-weight: 900">
+    <p class="menu-label w3-large w3-margin-top w3-text-light-green" style="font-weight: 900">
         Product Lines
     </p>
     <ul class="menu-list">
@@ -38,7 +38,7 @@
     </ul>
     {% with request|batch_numbers as bn %}
         {% if bn %}
-            <p class="menu-label w3-xlarge w3-margin-top w3-text-light-green" style="font-weight: 900">
+            <p class="menu-label w3-large w3-margin-top w3-text-light-green" style="font-weight: 900">
                 Batch
             </p>
             <ul class="menu-list">
