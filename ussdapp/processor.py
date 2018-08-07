@@ -58,8 +58,8 @@ class USSDProcessor(object):
                 return self.info_reward()
 
     def welcome_menu(self, error=False):
-        error_text = 'Invalid Selection\n' if error else ''
-        message = u'{}Welcome To Chekkit:\n\n1.Verify Product\n2.Exit'.format(error_text)
+        error_text = 'Invalid input, try again...\n' if error else ''
+        message = u'{}Welcome To Chekkit:\n\n1. Verify Product\n2. Exit'.format(error_text)
         return self.process_response(message=message, response_type=self.RESPONSE,
                                      client_state=self.VERIFY_PRODUCT_MENU)
 
@@ -102,14 +102,14 @@ class USSDProcessor(object):
             return self.enter_product_code(error=True)
 
     def verification_response(self, verified=True, error=False):
-        error_text = 'Invalid input\n' if error else ''
+        error_text = 'Invalid input, try again...\n' if error else ''
         feedback_menu = '{}Claim a reward, choose feedback:\n' \
                         '1.No feedback\n' \
                         '2.Product below quality\n' \
                         '3.Product too expensive' \
             .format(error_text)
         message = u'Congratulations, this product is an original! \n\n{}'.format(
-            feedback_menu) if verified else u'Warning, this product is not an original! \nPlease enter location of purchase:\n'
+            feedback_menu) if verified else u'Warning, this product is not an original! \nPlease enter your location of purchase:\n'
         if verified:
             """
             Subsequent transaction after verifying that a product is original
@@ -147,7 +147,7 @@ class USSDProcessor(object):
         ussd_record = self.get_ussd_record()
         ussd_record.location = self.message
         ussd_record.save()
-        message = u'Wonderful! \nYour account has been credited with GHC 2.\nThank you'
+        message = u'Wonderful!\nYour account has been credited with GHC 2.\nThank you'
         return self.process_response(message=message,
                                      client_state=self.FINISH, response_type=self.RELEASE)
 
