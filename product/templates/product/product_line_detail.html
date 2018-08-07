@@ -40,12 +40,14 @@
                     {% include 'partials/product_code.html' %}
                 </a>
             {% endfor %}
-            {% if product_codes.has_next %}
-                {% with product_codes as page_obj %}
-                    {% include 'partials/paginator.html' %}
-                {% endwith %}
+            <span style="margin: auto">
+                {% if product_codes.has_next %}
+                    {% with product_codes as page_obj %}
+                        {% include 'partials/paginator.html' %}
+                    {% endwith %}
 
-            {% endif %}
+                {% endif %}
+            </span>
         </div>
     </section>
 {% endblock %}

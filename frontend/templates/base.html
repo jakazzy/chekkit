@@ -38,7 +38,7 @@
 
     <div class="navbar-brand">
         <a class="navbar-item w3-margin-left" href="/">
-            <span class="title">Chekkit</span>
+            <span class="title w3-text-light-green">Chekkit</span>
             {#             <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">#}
         </a>
 
@@ -62,7 +62,7 @@
                                 Codes</a>
                         {% endif %}
                     {% endwith %}
-                    <a class="navbar-item w3-light-green w3-text-white"
+                    <a class="navbar-item w3-text-light-green has-text-weight-bold" style="text-decoration: underline"
                        href="{% url 'accounts:manufacturer' %}">
                         {{ request.user.profile.manufacturer }}
                     </a>
@@ -72,7 +72,7 @@
                         Create Manufacturer Account
                     </a>
                 {% endif %}
-                <a class="navbar-item w3-opacity-max" href="{% url 'account_logout' %}">Logout</a>
+                <a class="navbar-item w3-opacity" href="{% url 'account_logout' %}">Logout</a>
 
             {% else %}
                 <a class="navbar-item" href="{% url 'account_login' %}">Login</a>

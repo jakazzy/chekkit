@@ -26,13 +26,12 @@
             </a>
             <a class="level-item has-text-centered w3-margin w3-padding w3-deep-orange w3-card-4 w3-padding-16">
                 <div>
-                    <p class="heading">Counterfeit Report</p>
+                    <p class="heading has-text-black">Counterfeit Report</p>
                     <p class="title">789</p>
                 </div>
             </a>
         </nav>
         <canvas id="barChart" width="400" height="150" class="w3-card-4 w3-white w3-padding-large"></canvas>
-        <canvas id="scatterDiagram" width="400" height="150" class="w3-card-4 w3-white w3-padding-large"></canvas>
         <br>
         <br>
         <section class="pd30 pdtb20 h400 fph">
@@ -64,7 +63,7 @@
         <br>
         <div class="level w3-border-bottom">
             <div class="level-left">
-                <div class="level-item heading w3-large title">User Feedback</div>
+                <div class="level-item heading w3-large title">Newest User Feedback</div>
             </div>
             <div class="level-right">
                 <a class="level-item heading w3-large title has-text-weight-light w3-opacity w3-hover-opacity-off">Export&nbsp;<i
@@ -114,7 +113,6 @@
 {% block script %}
     <script>
         var ctxBarChart = document.getElementById("barChart").getContext('2d');
-        var ctxScatterDiagram = document.getElementById("scatterDiagram").getContext('2d');
         var barChart = new Chart(ctxBarChart, {
             type: 'bar',
             data: {
@@ -147,32 +145,6 @@
                         ticks: {
                             beginAtZero: true
                         }
-                    }]
-                }
-            }
-        });
-        var scatterChart = new Chart(ctxScatterDiagram, {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                    label: 'Scatter Dataset',
-                    data: [{
-                        x: -10,
-                        y: 0
-                    }, {
-                        x: 0,
-                        y: 10
-                    }, {
-                        x: 10,
-                        y: 5
-                    }]
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'linear',
-                        position: 'bottom'
                     }]
                 }
             }
