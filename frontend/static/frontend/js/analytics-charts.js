@@ -106,7 +106,7 @@
         chart: {
             renderTo: 'doughnut-chart',
             type: 'pie',
-            backgroundColor: "var(--normalBgColor)"
+            backgroundColor: "white"
         },
         colors: ['#e4d354',
             '#62ECBE',
@@ -200,7 +200,7 @@
         chart: {
             renderTo: 'column-chart',
             type: 'column',
-            backgroundColor: "var(--normalBgColor)"
+            backgroundColor: "white"
         },
         colors: ['#73b8f4',
             '#258bd8',
