@@ -46,8 +46,7 @@
 
                     <li class="w3-xlarge" id="{{ batch_number.uuid }}">
                         <a class="{% if batch_number.uuid == batch_object.uuid %}w3-light-green w3-text-white trans-400{% endif %}"
-                           href="{% url 'product:batch_detail' batch_number.uuid %}"><strong
-                                class="title">#</strong>&nbsp;&nbsp;{{ batch_number.batch_number }}
+                           href="{% url 'product:batch_detail' batch_number.uuid %}"><i class="fas fa-hashtag"></i>&nbsp;&nbsp;{{ batch_number.batch_number }}
                             | {{ batch_number.product_line.product_name }}</a>
                     </li>
                 {% endfor %}

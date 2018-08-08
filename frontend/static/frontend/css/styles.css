@@ -33,23 +33,26 @@ select,
     font-family: "CircularStd-Book", sans-serif;
     font-size: 16px;
 }
-.reset-border-radius{
+
+.reset-border-radius {
     border-radius: 0;
 }
-.search-input-width{
+
+.search-input-width {
     width: 350px;
 }
-.navbar-offset{
-    padding-top: 64px;
+
+.navbar-offset {
+    padding-top: 70px;
 }
 
-.trans-400{
+.trans-400 {
     transition: 400ms;
 }
 
 a {
     color: #8bc34a;
-!important;
+     !important;
 }
 
 a.navbar-item:hover {
