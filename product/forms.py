@@ -11,7 +11,7 @@ class ProductLineForm(ModelForm):
         model = ProductLine
         fields = ['product_name', 'description', 'photo']
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 5}),
+            'description': forms.Textarea(attrs={'rows': 3}),
         }
 
 

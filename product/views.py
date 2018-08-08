@@ -12,7 +12,7 @@ from .forms import ProductLineForm, ProductCodeForm, BatchForm, ProductCodeFromB
 def create_product_line(request):
     next = request.GET.get('next', '/')
     if request.method == 'POST':
-        create_product_line_form = ProductLineForm(request.POST)
+        create_product_line_form = ProductLineForm(request.POST, request.FILES)
         if create_product_line_form.is_valid():
             product_line = create_product_line_form.save(commit=False)
             product_line.manufacturer = request.user.profile.manufacturer

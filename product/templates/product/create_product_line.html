@@ -10,7 +10,7 @@
             <header class="modal-card-head">
                 <p class="modal-card-title">Create Product Line</p>
             </header>
-            <form action="{% url 'product:create_product_line' %}" method="post">
+            <form action="{% url 'product:create_product_line' %}" method="post" enctype="multipart/form-data">
                 <section class="modal-card-body">
                     <input type="hidden" name="next" value="{{ next }}"/>
                     {% csrf_token %}
