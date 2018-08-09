@@ -33,7 +33,8 @@
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                     {% endif %}
-                    <button class="primaryAction button w3-light-green" type="submit">{% trans "Sign In" %}</button>
+                    <button class="primaryAction button w3-text-white w3-light-green"
+                            type="submit">{% trans "Sign In" %}</button>
                     <a class="button  is-outlined is-text secondaryAction"
                        href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                 </form>
